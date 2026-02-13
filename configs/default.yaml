@@ -1,0 +1,80 @@
+# Default configuration for hierarchical attention pooling model
+
+# Data settings
+data:
+  dataset_name: "BBBP"  # Blood-Brain Barrier Penetration from MoleculeNet
+  split_type: "scaffold"  # scaffold, random
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+  batch_size: 32
+  num_workers: 4
+  seed: 42
+
+# Model settings
+model:
+  # Graph encoder
+  node_feat_dim: 9  # Atom features
+  edge_feat_dim: 3  # Bond features
+  hidden_dim: 128
+  num_gnn_layers: 3
+  gnn_type: "gcn"  # gcn, gat, gin
+  dropout: 0.2
+
+  # Hierarchical attention pooling
+  use_hierarchical_pooling: true
+  num_attention_heads: 4
+  functional_group_pooling: true
+  scaffold_aware: true
+
+  # Output
+  num_classes: 2
+  task_type: "classification"  # classification, regression
+
+# Training settings
+training:
+  num_epochs: 200
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  optimizer: "adam"  # adam, adamw
+  scheduler: "cosine"  # cosine, step, plateau
+  scheduler_patience: 10
+  scheduler_factor: 0.5
+
+  # Curriculum learning
+  use_curriculum: true
+  curriculum_start_epoch: 0
+  curriculum_end_epoch: 100
+
+  # Regularization
+  gradient_clip: 1.0
+  label_smoothing: 0.1
+  mixup_alpha: 0.0  # Set to 0 to disable
+
+  # Early stopping
+  early_stopping: true
+  patience: 30
+  min_delta: 0.0001
+
+  # Mixed precision
+  use_amp: true
+
+  # Checkpointing
+  save_dir: "checkpoints"
+  save_best_only: true
+
+  # Logging
+  log_interval: 10
+  use_mlflow: true
+
+# Evaluation settings
+evaluation:
+  metrics:
+    - "roc_auc"
+    - "accuracy"
+    - "f1"
+    - "precision"
+    - "recall"
+  scaffold_split_eval: true
+  save_predictions: true
+  results_dir: "results"
