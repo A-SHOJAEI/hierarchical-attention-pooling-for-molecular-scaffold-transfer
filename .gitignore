@@ -80,3 +80,6 @@ data/*.h5
 data/*.hdf5
 outputs/
 .venv/
+*.log
+*.egg-info
+.mypy_cache/
