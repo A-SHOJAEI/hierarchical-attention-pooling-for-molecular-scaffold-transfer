@@ -57,10 +57,10 @@ checkpoints/
 *.pt
 *.ckpt
 
-# Results
-results/
+# Results (keep results/ tracked for evaluation artifacts)
 logs/
 mlruns/
+training_output.log
 
 # OS
 .DS_Store

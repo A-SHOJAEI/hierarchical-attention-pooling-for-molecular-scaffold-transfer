@@ -51,9 +51,9 @@ def scaffold_split(
             logger.warning(f"Error processing SMILES at index {i}: {e}")
             continue
 
-    # Sort scaffolds by size (largest first) for balanced splits
+    # Shuffle scaffolds to ensure random class distribution across splits
     scaffolds = list(scaffold_to_indices.items())
-    scaffolds.sort(key=lambda x: len(x[1]), reverse=True)
+    np.random.shuffle(scaffolds)
 
     # Assign scaffolds to splits
     train_indices, val_indices, test_indices = [], [], []
@@ -64,7 +64,6 @@ def scaffold_split(
         # Determine which split needs more data
         train_frac = train_size / total_size if total_size > 0 else 0
         val_frac = val_size / total_size if total_size > 0 else 0
-        test_frac = test_size / total_size if total_size > 0 else 0
 
         if train_frac < train_ratio:
             train_indices.extend(indices)
