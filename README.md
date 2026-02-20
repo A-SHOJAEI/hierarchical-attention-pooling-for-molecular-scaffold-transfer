@@ -91,19 +91,27 @@ Training completed on BBBP (Blood-Brain Barrier Penetration) dataset from Molecu
 
 | Metric | Value |
 |--------|-------|
-| Accuracy | 98.52% |
-| Precision | 100.00% |
-| Recall | 98.52% |
-| F1 Score | 99.26% |
+| Accuracy | 86.67% |
+| Precision | 87.41% |
+| Recall | 96.90% |
+| F1 Score | 91.91% |
+| ROC AUC | 90.08% |
+
+### Per-Class Performance
+
+| Class | Precision | Recall | F1 | Support |
+|-------|-----------|--------|-----|---------|
+| Class 0 (non-permeable) | 81.82% | 50.00% | 62.07% | 36 |
+| Class 1 (permeable) | 87.41% | 96.90% | 91.91% | 129 |
 
 ### Training Dynamics
 
-- **Final Training Loss**: 0.3873 (epoch 34)
-- **Final Validation Loss**: 0.3710 (epoch 34)
-- **Training Epochs**: 34 (early stopped)
-- **Learning Rate Decay**: Cosine annealing from 0.001 to 0.0009
+- **Final Training Loss**: 0.3514 (epoch 52)
+- **Best Validation Loss**: 0.4366 (epoch 21)
+- **Training Epochs**: 52 (early stopped with patience 30)
+- **Learning Rate Decay**: Cosine annealing from 0.001 to 0.0008
 
-The model demonstrates excellent generalization on the test set with near-perfect precision and strong recall. Training converged smoothly with validation loss decreasing from 0.3726 to 0.2923 (best at epoch 41) before early stopping.
+The model demonstrates strong generalization on the scaffold-split test set with 90.08% ROC AUC. High recall (96.90%) for permeable compounds indicates the model rarely misses true positives, while precision of 87.41% keeps false positive rate low. The class imbalance (129 permeable vs 36 non-permeable) in the test set reflects the dataset distribution.
 
 Run `python scripts/train.py` to reproduce. Full training history and per-class metrics are saved in `results/` directory.
 
